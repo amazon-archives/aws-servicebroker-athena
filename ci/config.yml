@@ -1,0 +1,13 @@
+global:
+  parameters: {}
+  regions:
+    - us-east-1
+
+plans:
+  athena-schema:
+    parameters:
+      S3Source: "s3://athena-test-apb/input/"
+      TableColumns: "(`id` INT)"
+      RowFormat: DELIMITED
+      SerdeName: ""
+      SerdeProperties: ""

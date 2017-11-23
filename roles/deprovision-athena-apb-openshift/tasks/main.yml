@@ -1,0 +1,25 @@
+- name: include plan vars
+  include_vars:
+    file: "{{ _apb_plan_id }}.yml"
+- name: generate b62 hash
+  shell: "16to62 {{ params_hash }}"
+  register: command_output
+- name: set fact
+  set_fact:
+    stack_suffix: "{{ command_output.stdout }}"
+- name: Remove athena table
+  cloudformation:
+    stack_name: "apb-athena-{{ stack_suffix }}"
+    state: "absent"
+    region: "{{ region }}"
+- name: Remove IAM policy
+  iam_policy:
+    iam_type: user
+    iam_name: "apb-athena-iam-{{ stack_suffix }}"
+    policy_name: "Athena-APB-{{ stack_suffix }}"
+    state: absent
+- name: Remove IAM user
+  iam:
+    iam_type: user
+    name: "apb-athena-iam-{{ stack_suffix }}"
+    state: absent

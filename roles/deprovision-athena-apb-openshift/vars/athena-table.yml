@@ -1,8 +1,0 @@
-# until we have a unique application_name make a hash out of the input params values
-# so you will not be able to have 2 ServiceInstances with the same settings in a project
-params_string: "{{ namespace }}::{{ _apb_plan_id }}::{{ aws_access_key }}::{{ aws_secret_key }}::{{ aws_cloudformation_role_arn }}::{{ region }}::{{ S3Source }}::{{ TableColumns }}::{{ RowFormat }}"
-params_hash: "{{ params_string | checksum }}"
-database_name: "{{ params_string }}-db"
-database_name: "{{ database_name | checksum }}"
-table_name: "{{ params_string }}-table"
-table_name: "{{ table_name | checksum }}"
